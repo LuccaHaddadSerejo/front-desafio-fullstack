@@ -1,11 +1,10 @@
 import React from 'react';
+import RoutesMain from './routes';
 
 function App() {
   return (
     <>
-      <div>
-        <h1>Oi!</h1>
-      </div>
+      <RoutesMain />
     </>
   );
 }
