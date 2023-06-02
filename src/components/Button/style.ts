@@ -41,6 +41,20 @@ export const StyledButton = styled.button<iStyledButtonProps>`
           font-size: clamp(var(--font-size7), 4vw, var(--font-size5));
           color: #2b6cb0;
         `;
+      case 'closeModal':
+        return css`
+          width: 20px;
+          height: 20px;
+          background-color: transparent;
+          border: none;
+          font-weight: var(--weight2);
+          font-size: clamp(var(--font-size7), 3vw, var(--font-size5));
+          color: var(--color-gray300);
+
+          &:hover {
+            color: var(--color-primary);
+          }
+        `;
     }
   }}
 `;

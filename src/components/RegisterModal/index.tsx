@@ -4,6 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../Modal';
 import { RegisterData, schema } from './schema';
 import useContextHook from '../../hooks/userContextHook';
+import StyledContent from './style';
+import Input from '../Input';
+import Button from '../Button';
 
 interface RegisterModalProps {
   toggleModal: () => void;
@@ -18,21 +21,62 @@ const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
 
   return (
     <Modal toggleModal={toggleModal}>
-      <form onSubmit={handleSubmit(userRegister)}>
-        <label htmlFor='name'>Nome</label>
-        <input type='text' id='name' {...register('name')} />
+      <StyledContent>
+        <div>
+          <h2>Formulário de cadastro</h2>
+          <Button
+            type={'button'}
+            buttonVariation={'closeModal'}
+            onClick={toggleModal}>
+            X
+          </Button>
+        </div>
+        <form onSubmit={handleSubmit(userRegister)}>
+          <Input
+            inputVariation={'form'}
+            id={'name'}
+            type={'text'}
+            disabled={false}
+            label={'Nome'}
+            placeholder={'Digite seu nome'}
+            register={register('name')}
+          />
 
-        <label htmlFor='email'>Email</label>
-        <input type='email' id='email' {...register('email')} />
+          <Input
+            inputVariation={'form'}
+            id={'email'}
+            type={'email'}
+            disabled={false}
+            label={'Email'}
+            placeholder={'Digite seu email'}
+            register={register('email')}
+          />
 
-        <label htmlFor='phone'>Telefone</label>
-        <input type='text' id='phone' {...register('phone')} />
+          <Input
+            inputVariation={'form'}
+            id={'phone'}
+            type={'text'}
+            disabled={false}
+            label={'Telefone'}
+            placeholder={'Digite seu telefone'}
+            register={register('phone')}
+          />
 
-        <label htmlFor='password'>Senha</label>
-        <input type='password' id='password' {...register('password')} />
+          <Input
+            inputVariation={'form'}
+            id={'password'}
+            type={'password'}
+            disabled={false}
+            label={'Senha'}
+            placeholder={'Digite sua senha'}
+            register={register('password')}
+          />
 
-        <button type='submit'>Registrar</button>
-      </form>
+          <Button type={'submit'} buttonVariation={'login'}>
+            Cadastrar
+          </Button>
+        </form>
+      </StyledContent>
     </Modal>
   );
 };
