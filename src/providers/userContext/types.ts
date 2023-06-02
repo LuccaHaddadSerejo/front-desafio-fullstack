@@ -6,7 +6,7 @@ interface iUser {
   email: string;
   phone: string;
   password: string;
-  contacts: iContact[] | null;
+  contacts: iContact[];
   createdAt: string;
   updatedAt: string;
 }
