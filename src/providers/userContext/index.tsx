@@ -15,6 +15,7 @@ export interface iUserProviderValue {
   toggleModal: () => void;
   isOpenModal: boolean;
   loading: boolean;
+  user: iUser | null;
 }
 
 export interface iUserProviderProps {
@@ -25,8 +26,9 @@ export const UserContext = createContext({} as iUserProviderValue);
 
 export const UserProvider = ({ children }: iUserProviderProps) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const toggleModal = () => setIsOpenModal(!isOpenModal);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<iUser | null>(null);
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,12 +57,18 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
   const userLogin = async (data: LoginData) => {
     try {
       const res = await api.post('/login', data);
-      toast.success('Login feito com sucesso.');
       const { token } = res.data;
-
       api.defaults.headers.common.authorization = `Bearer ${token}`;
-      localStorage.setItem('@TOKEN', token);
 
+      const getUsersRes = await api.get('/users');
+      const loggedUser = getUsersRes.data.filter(
+        (elt: iUser) => elt.email === data.email
+      )[0];
+
+      localStorage.setItem('@TOKEN', token);
+      setUser(loggedUser);
+
+      toast.success('Login feito com sucesso.');
       navigate('/Dashboard');
     } catch (error) {
       const currentError = error as AxiosError<any>;
@@ -76,6 +84,7 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
         toggleModal,
         isOpenModal,
         loading,
+        user,
       }}>
       {children}
     </UserContext.Provider>
