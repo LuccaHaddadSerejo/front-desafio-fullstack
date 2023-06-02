@@ -1,0 +1,46 @@
+import styled, { css } from 'styled-components';
+
+export interface iStyledButtonProps {
+  buttonVariation?: string;
+}
+
+export const StyledButton = styled.button<iStyledButtonProps>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border-radius: var(--radius3);
+  transition: 0.4s;
+
+  ${({ buttonVariation }) => {
+    switch (buttonVariation) {
+      case 'login':
+        return css`
+          width: min(100%, 800px);
+          height: 50px;
+          background-color: var(--color-primary);
+          border: 1px solid var(--color-primary);
+          border-radius: var(--radius2);
+          font-weight: var(--weight2);
+          font-size: clamp(var(--font-size7), 4vw, var(--font-size5));
+          color: #ffff;
+
+          &:hover {
+            background-color: var(--color-secondary);
+            border-color: var(--color-secondary);
+          }
+        `;
+      case 'register':
+        return css`
+          width: fit-content;
+          height: fit-content;
+          background-color: transparent;
+          border: none;
+          text-decoration: underline;
+          font-weight: var(--weight4);
+          font-size: clamp(var(--font-size7), 4vw, var(--font-size5));
+          color: #2b6cb0;
+        `;
+    }
+  }}
+`;

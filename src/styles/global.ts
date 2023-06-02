@@ -2,11 +2,11 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   :root {
-    --color-background: #000000;
-    --color-primary: #04C35C;
-    --color-secondary: #2B6CB0;
-    --color-gray300:#1A202C;
-    --color-gray200:#F7FAFC;
+    --color-background: #f5f5f5;
+    --color-primary: #B40421;
+    --color-secondary: #EF233C;
+    --color-gray300: #1F1F1F;
+    --color-gray200: #0A0A0A;
     --color-gray100:##FFFFFF;
     --color-success: #3FE864;
     --color-negative: #E83F5B;
@@ -38,6 +38,7 @@ export default createGlobalStyle`
     outline:0;
     list-style: none;
     box-sizing: border-box;
+    font-family: 'Merriweather Sans', sans-serif;
   }
 
   body,html{
@@ -52,7 +53,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background-color: white;
+    background-color: #F5F5F5;
   }
   
   button {
