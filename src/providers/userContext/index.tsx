@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { createContext, useEffect, useState } from 'react';
@@ -15,7 +16,7 @@ export interface iUserProviderValue {
   toggleModal: () => void;
   isOpenModal: boolean;
   loading: boolean;
-  user: iUser | null;
+  user: iUser;
 }
 
 export interface iUserProviderProps {
@@ -27,7 +28,16 @@ export const UserContext = createContext({} as iUserProviderValue);
 export const UserProvider = ({ children }: iUserProviderProps) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<iUser | null>(null);
+  const [user, setUser] = useState<iUser>({
+    id: 0,
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    contacts: [],
+    createdAt: '',
+    updatedAt: '',
+  });
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const navigate = useNavigate();
 
