@@ -7,7 +7,7 @@ import useContextHook from '../../hooks/userContextHook';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { StyledMain } from './style';
-import conections from '../../assets/img/undraw_conection.svg';
+import ConectionsBackground from '../../assets/img/undraw_conection.svg';
 
 const LandingPage = () => {
   const { userLogin, toggleModal, isOpenModal } = useContextHook();
@@ -22,7 +22,7 @@ const LandingPage = () => {
           <h1>Personal Agenda</h1>
           <p>A sua agenda online. Simples, rápida e intuitiva</p>
         </div>
-        <img src={conections} alt='Ellipses container' />
+        <img src={ConectionsBackground} alt='Conections image' />
       </section>
       <section>
         <div>
@@ -32,7 +32,7 @@ const LandingPage = () => {
         <form onSubmit={handleSubmit(userLogin)}>
           <Input
             inputVariation={'form'}
-            id={'email'}
+            id={'emailLogin'}
             type={'email'}
             disabled={false}
             label={'Email'}
@@ -42,7 +42,7 @@ const LandingPage = () => {
 
           <Input
             inputVariation={'form'}
-            id={'password'}
+            id={'passwordLogin'}
             type={'password'}
             disabled={false}
             label={'Senha'}

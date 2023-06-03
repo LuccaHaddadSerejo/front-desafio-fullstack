@@ -2,78 +2,68 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../Modal';
-import { RegisterData, schema } from './schema';
-import useContextHook from '../../hooks/userContextHook';
+import { CreateData, schema } from './schema';
+import useContactContextHook from '../../hooks/contactContextHook';
 import StyledContent from './style';
 import Input from '../Input';
 import Button from '../Button';
 
-interface RegisterModalProps {
-  toggleModal: () => void;
+interface AddContactModalProps {
+  toggleContactModal: () => void;
 }
 
-const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
-  const { register, handleSubmit } = useForm<RegisterData>({
+const AddContactModal = ({ toggleContactModal }: AddContactModalProps) => {
+  const { register, handleSubmit } = useForm<CreateData>({
     resolver: zodResolver(schema),
   });
 
-  const { userRegister } = useContextHook();
+  const { contactRegister } = useContactContextHook();
 
   return (
-    <Modal toggleModal={toggleModal}>
+    <Modal toggleModal={toggleContactModal}>
       <StyledContent>
         <div>
-          <h2>Formulário de cadastro</h2>
+          <h2>Criar contato</h2>
           <Button
             type={'button'}
             buttonVariation={'closeModal'}
-            onClick={toggleModal}>
+            onClick={toggleContactModal}>
             X
           </Button>
         </div>
-        <form onSubmit={handleSubmit(userRegister)}>
+        <form onSubmit={handleSubmit(contactRegister)}>
           <Input
             inputVariation={'form'}
-            id={'nameRegister'}
+            id={'nameEditProfile'}
             type={'text'}
             disabled={false}
             label={'Nome'}
-            placeholder={'Digite seu nome'}
+            placeholder={'Digite o nome'}
             register={register('name')}
           />
 
           <Input
             inputVariation={'form'}
-            id={'email'}
-            type={'emailRegister'}
+            id={'emailEditProfile'}
+            type={'email'}
             disabled={false}
             label={'Email'}
-            placeholder={'Digite seu email'}
+            placeholder={'Digite o email'}
             register={register('email')}
           />
 
           <Input
             inputVariation={'form'}
-            id={'phoneRegister'}
+            id={'phoneEditProfile'}
             type={'text'}
             disabled={false}
             label={'Telefone'}
-            placeholder={'Digite seu telefone'}
+            placeholder={'Digite o telefone'}
             register={register('phone')}
           />
 
-          <Input
-            inputVariation={'form'}
-            id={'passwordRegister'}
-            type={'password'}
-            disabled={false}
-            label={'Senha'}
-            placeholder={'Digite sua senha'}
-            register={register('password')}
-          />
-
           <Button type={'submit'} buttonVariation={'login'}>
-            Cadastrar
+            Criar contato
           </Button>
         </form>
       </StyledContent>
@@ -81,4 +71,4 @@ const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
   );
 };
 
-export default RegisterModal;
+export default AddContactModal;

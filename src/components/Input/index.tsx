@@ -11,6 +11,7 @@ interface iInputProps {
   register?: UseFormRegisterReturn;
   inputVariation?: string;
   value?: string;
+  defaultValue?: string;
 }
 
 const Input = ({
@@ -22,6 +23,7 @@ const Input = ({
   register,
   inputVariation,
   value,
+  defaultValue,
 }: iInputProps) => {
   return (
     <StyledInput inputVariation={inputVariation}>
@@ -34,6 +36,7 @@ const Input = ({
         id={id}
         placeholder={placeholder}
         disabled={disabled}
+        defaultValue={defaultValue}
         {...register}
       />
     </StyledInput>

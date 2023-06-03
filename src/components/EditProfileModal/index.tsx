@@ -2,28 +2,28 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../Modal';
-import { RegisterData, schema } from './schema';
+import { UpdateData, schema } from './schema';
 import useContextHook from '../../hooks/userContextHook';
 import StyledContent from './style';
 import Input from '../Input';
 import Button from '../Button';
 
-interface RegisterModalProps {
+interface EditProfileModalProps {
   toggleModal: () => void;
 }
 
-const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
-  const { register, handleSubmit } = useForm<RegisterData>({
+const EditProfileModal = ({ toggleModal }: EditProfileModalProps) => {
+  const { register, handleSubmit } = useForm<UpdateData>({
     resolver: zodResolver(schema),
   });
 
-  const { userRegister } = useContextHook();
+  const { userUpdate, user, userDelete } = useContextHook();
 
   return (
     <Modal toggleModal={toggleModal}>
       <StyledContent>
         <div>
-          <h2>Formulário de cadastro</h2>
+          <h2>Atualização de perfil</h2>
           <Button
             type={'button'}
             buttonVariation={'closeModal'}
@@ -31,54 +31,64 @@ const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
             X
           </Button>
         </div>
-        <form onSubmit={handleSubmit(userRegister)}>
+        <form onSubmit={handleSubmit(userUpdate)}>
           <Input
             inputVariation={'form'}
-            id={'nameRegister'}
+            id={'nameEditProfile'}
             type={'text'}
             disabled={false}
             label={'Nome'}
             placeholder={'Digite seu nome'}
             register={register('name')}
+            defaultValue={user.name}
           />
 
           <Input
             inputVariation={'form'}
-            id={'email'}
-            type={'emailRegister'}
+            id={'emailEditProfile'}
+            type={'email'}
             disabled={false}
             label={'Email'}
             placeholder={'Digite seu email'}
             register={register('email')}
+            defaultValue={user.email}
           />
 
           <Input
             inputVariation={'form'}
-            id={'phoneRegister'}
+            id={'phoneEditProfile'}
             type={'text'}
             disabled={false}
             label={'Telefone'}
             placeholder={'Digite seu telefone'}
             register={register('phone')}
+            defaultValue={user.phone}
           />
 
           <Input
             inputVariation={'form'}
-            id={'passwordRegister'}
+            id={'passwordEditProfile'}
             type={'password'}
             disabled={false}
             label={'Senha'}
             placeholder={'Digite sua senha'}
             register={register('password')}
           />
-
-          <Button type={'submit'} buttonVariation={'login'}>
-            Cadastrar
-          </Button>
+          <div>
+            <Button type={'submit'} buttonVariation={'login'}>
+              Atualizar perfil
+            </Button>
+            <Button
+              type={'button'}
+              buttonVariation={'delete'}
+              onClick={userDelete}>
+              Deletar perfil
+            </Button>
+          </div>
         </form>
       </StyledContent>
     </Modal>
   );
 };
 
-export default RegisterModal;
+export default EditProfileModal;
