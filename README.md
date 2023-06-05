@@ -13,7 +13,7 @@ Esse serviço possui uma API REST para criar, listar, atualizar e deletar os dad
 
 - Foi desenvolvido com Typescript, React, Zod, Styled-components e outras bibliotecas.
 - Utiliza uma API local para funcionar corretamente, inicie ela localmente antes de iniciar o projeto.
-- Link do repositório do backend:
+- Link do repositório do backend: https://github.com/LuccaHaddadSerejo/back-desafio-fullstack
 
 
  
