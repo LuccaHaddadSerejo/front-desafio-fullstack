@@ -17,8 +17,6 @@ const Container = styled.div`
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.25);
     width: 90%;
     max-width: 600px;
-    position: relative;
-    bottom: 100px;
   }
 `;
 

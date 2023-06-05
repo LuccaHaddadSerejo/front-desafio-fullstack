@@ -1,22 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { createContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  SetStateAction,
+} from 'react';
 import api from '../../services/api';
-import { iUser } from './types';
+import { iUser, iUserReturn, iUserUpdatedReturn } from './types';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { LoginData } from '../../pages/LandingPage/schema';
 import { RegisterData } from '../../components/RegisterModal/schema';
+import { UpdateData } from '../../components/EditProfileModal/schema';
 import { useNavigate } from 'react-router-dom';
 
 export interface iUserProviderValue {
   userRegister: (data: RegisterData) => void;
   userLogin: (data: LoginData) => void;
+  userUpdate: (data: UpdateData) => void;
+  userDelete: () => void;
   toggleModal: () => void;
+  logOff: () => void;
   isOpenModal: boolean;
   loading: boolean;
-  user: iUser;
+  user: iUserReturn;
+  updatedUser: iUserUpdatedReturn;
+  setUser: React.Dispatch<SetStateAction<iUserReturn>>;
 }
 
 export interface iUserProviderProps {
@@ -28,24 +39,37 @@ export const UserContext = createContext({} as iUserProviderValue);
 export const UserProvider = ({ children }: iUserProviderProps) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<iUser>({
+  const [user, setUser] = useState<iUserReturn>({
     id: 0,
     name: '',
     email: '',
     phone: '',
-    password: '',
     contacts: [],
     createdAt: '',
     updatedAt: '',
   });
+  const [updatedUser, setUpdatedUser] = useState<iUserUpdatedReturn>(user);
+
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('@TOKEN');
+    const userString = localStorage.getItem('@USER');
+    const user: iUser = userString ? JSON.parse(userString) : null;
 
     if (!token) {
       setLoading(false);
+      localStorage.removeItem('@USER');
+      navigate('/');
+    }
+
+    if (user) {
+      setUser(user);
+      navigate('/Dashboard');
+    } else {
+      setLoading(false);
+      localStorage.removeItem('@TOKEN');
       navigate('/');
     }
 
@@ -55,9 +79,9 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
 
   const userRegister = async (data: RegisterData) => {
     try {
-      const res = await api.post<iUser>('/users', data);
+      await api.post<iUser>('/users', data);
       toast.success('Conta criada com sucesso');
-      toggleModal;
+      toggleModal();
     } catch (error) {
       const currentError = error as AxiosError<any>;
       toast.error(currentError.response?.data.message);
@@ -76,7 +100,9 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
       )[0];
 
       localStorage.setItem('@TOKEN', token);
+      localStorage.setItem('@USER', JSON.stringify(loggedUser));
       setUser(loggedUser);
+      setUpdatedUser(loggedUser);
 
       toast.success('Login feito com sucesso.');
       navigate('/Dashboard');
@@ -84,6 +110,48 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
       const currentError = error as AxiosError<any>;
       toast.error(currentError.response?.data.message);
     }
+  };
+
+  const userUpdate = async (data: UpdateData) => {
+    try {
+      if (data.password?.length !== 0) {
+        const res = await api.patch(`/users/${user.id}`, data);
+        localStorage.setItem('@USER', JSON.stringify(res.data));
+        setUpdatedUser(res.data);
+      } else {
+        const newData = {
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+        };
+        const res = await api.patch(`/users/${user.id}`, newData);
+        localStorage.setItem('@USER', JSON.stringify(res.data));
+        setUpdatedUser(res.data);
+      }
+      toast.success('Perfil atualizado com sucesso');
+      toggleModal();
+    } catch (error) {
+      const currentError = error as AxiosError<any>;
+      toast.error(currentError.response?.data.message);
+    }
+  };
+
+  const userDelete = async () => {
+    try {
+      await api.delete(`/users/${user.id}`);
+      toast.warning('Perfil deletado com sucesso');
+      toggleModal();
+      logOff();
+    } catch (error) {
+      const currentError = error as AxiosError<any>;
+      toast.error(currentError.response?.data.message);
+    }
+  };
+
+  const logOff = () => {
+    localStorage.removeItem('@USER');
+    localStorage.removeItem('@TOKEN');
+    navigate('/');
   };
 
   return (
@@ -95,6 +163,11 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
         isOpenModal,
         loading,
         user,
+        updatedUser,
+        userUpdate,
+        userDelete,
+        logOff,
+        setUser,
       }}>
       {children}
     </UserContext.Provider>

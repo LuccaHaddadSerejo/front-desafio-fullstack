@@ -1,14 +1,17 @@
 import React from 'react';
 import RoutesMain from './routes';
-import { UserProvider } from './providers/userContext';
 import Global from './styles/global';
+import { UserProvider } from './providers/userContext';
+import { ContactProvider } from './providers/contactsContext';
 
 function App() {
   return (
     <>
       <Global />
       <UserProvider>
-        <RoutesMain />
+        <ContactProvider>
+          <RoutesMain />
+        </ContactProvider>
       </UserProvider>
     </>
   );
