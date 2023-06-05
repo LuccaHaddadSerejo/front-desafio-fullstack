@@ -4,7 +4,7 @@
  1. Clone o repositório na branch "main".
  2. Instale as dependências do projeto com o comando **npm i** ou **yarn**.
  3. Para rodar a aplicação localmente sem problemas, esteja com a API local deste projeto rodando em sua máquina e utilize o seguinte comando: **npm run dev** ou **yarn dev**.
- 4. Caso esteja com dúvidas em como rodar a API localmente, siga o passo a passo no repositório dela > 
+ 4. Caso esteja com dúvidas em como rodar a API localmente, siga o passo a passo no repositório dela > https://github.com/LuccaHaddadSerejo/back-desafio-fullstack
 
 
 ## Requisitos do Serviço
