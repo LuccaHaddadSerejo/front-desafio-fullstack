@@ -118,4 +118,10 @@ const StyledMain = styled.main`
   }
 `;
 
-export { StyledMain };
+const StyledError = styled.p`
+  margin-top: 10px;
+  color: var(--color-negative);
+  font-size: clamp(var(--font-size9), 3vw, var(--font-size6));
+`;
+
+export { StyledMain, StyledError };

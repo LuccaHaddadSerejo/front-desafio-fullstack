@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../Modal';
 import { RegisterData, schema } from './schema';
 import useContextHook from '../../hooks/userContextHook';
-import StyledContent from './style';
+import { StyledError, StyledContent } from './style';
 import Input from '../Input';
 import Button from '../Button';
 
@@ -13,7 +13,11 @@ interface RegisterModalProps {
 }
 
 const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
-  const { register, handleSubmit } = useForm<RegisterData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterData>({
     resolver: zodResolver(schema),
   });
 
@@ -38,9 +42,13 @@ const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
             type={'text'}
             disabled={false}
             label={'Nome'}
+            required={true}
             placeholder={'Digite seu nome'}
             register={register('name')}
           />
+          {errors.name?.message && (
+            <StyledError>{errors.name.message}</StyledError>
+          )}
 
           <Input
             inputVariation={'form'}
@@ -48,19 +56,27 @@ const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
             type={'emailRegister'}
             disabled={false}
             label={'Email'}
+            required={true}
             placeholder={'Digite seu email'}
             register={register('email')}
           />
+          {errors.email?.message && (
+            <StyledError>{errors.email.message}</StyledError>
+          )}
 
           <Input
             inputVariation={'form'}
             id={'phoneRegister'}
-            type={'text'}
+            type={'tel'}
             disabled={false}
             label={'Telefone'}
+            required={true}
             placeholder={'Digite seu telefone'}
             register={register('phone')}
           />
+          {errors.phone?.message && (
+            <StyledError>{errors.phone.message}</StyledError>
+          )}
 
           <Input
             inputVariation={'form'}
@@ -68,9 +84,27 @@ const RegisterModal = ({ toggleModal }: RegisterModalProps) => {
             type={'password'}
             disabled={false}
             label={'Senha'}
+            required={true}
             placeholder={'Digite sua senha'}
             register={register('password')}
           />
+          {errors.password?.message && (
+            <StyledError>{errors.password.message}</StyledError>
+          )}
+
+          <Input
+            inputVariation={'form'}
+            id={'passwordConfirm'}
+            type={'password'}
+            disabled={false}
+            label={'Confirmar senha'}
+            required={true}
+            placeholder={'Digite sua senha novamente'}
+            register={register('confirmPassword')}
+          />
+          {errors.confirmPassword?.message && (
+            <StyledError>{errors.confirmPassword.message}</StyledError>
+          )}
 
           <Button type={'submit'} buttonVariation={'login'}>
             Cadastrar

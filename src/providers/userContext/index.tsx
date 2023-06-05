@@ -8,7 +8,7 @@ import React, {
   SetStateAction,
 } from 'react';
 import api from '../../services/api';
-import { iUser, iUserReturn } from './types';
+import { iUser, iUserReturn, iUserUpdatedReturn } from './types';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { LoginData } from '../../pages/LandingPage/schema';
@@ -26,6 +26,7 @@ export interface iUserProviderValue {
   isOpenModal: boolean;
   loading: boolean;
   user: iUserReturn;
+  updatedUser: iUserUpdatedReturn;
   setUser: React.Dispatch<SetStateAction<iUserReturn>>;
 }
 
@@ -47,6 +48,8 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
     createdAt: '',
     updatedAt: '',
   });
+  const [updatedUser, setUpdatedUser] = useState<iUserUpdatedReturn>(user);
+
   const toggleModal = () => setIsOpenModal(!isOpenModal);
   const navigate = useNavigate();
 
@@ -99,6 +102,7 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
       localStorage.setItem('@TOKEN', token);
       localStorage.setItem('@USER', JSON.stringify(loggedUser));
       setUser(loggedUser);
+      setUpdatedUser(loggedUser);
 
       toast.success('Login feito com sucesso.');
       navigate('/Dashboard');
@@ -113,7 +117,7 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
       if (data.password?.length !== 0) {
         const res = await api.patch(`/users/${user.id}`, data);
         localStorage.setItem('@USER', JSON.stringify(res.data));
-        setUser(res.data);
+        setUpdatedUser(res.data);
       } else {
         const newData = {
           name: data.name,
@@ -122,9 +126,8 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
         };
         const res = await api.patch(`/users/${user.id}`, newData);
         localStorage.setItem('@USER', JSON.stringify(res.data));
-        setUser(res.data);
+        setUpdatedUser(res.data);
       }
-
       toast.success('Perfil atualizado com sucesso');
       toggleModal();
     } catch (error) {
@@ -160,6 +163,7 @@ export const UserProvider = ({ children }: iUserProviderProps) => {
         isOpenModal,
         loading,
         user,
+        updatedUser,
         userUpdate,
         userDelete,
         logOff,

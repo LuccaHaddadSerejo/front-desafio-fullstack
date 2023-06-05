@@ -51,7 +51,6 @@ export const ContactProvider = ({ children }: icontactProviderProps) => {
 
   const contactUpdate = async (data: UpdateData, id: number) => {
     try {
-      console.log(data);
       await api.patch(`/contacts/${id}`, data);
       const res = await api.get(`/users/${user.id}`);
       localStorage.setItem('@USER', JSON.stringify(res.data));
@@ -70,7 +69,7 @@ export const ContactProvider = ({ children }: icontactProviderProps) => {
       const res = await api.get(`/users/${user.id}`);
       localStorage.setItem('@USER', JSON.stringify(res.data));
       setUser(res.data);
-      toast.warning('Contato deletado com sucesso');
+      toast.success('Contato deletado com sucesso');
       toggleEditContactModal();
     } catch (error) {
       const currentError = error as AxiosError<any>;

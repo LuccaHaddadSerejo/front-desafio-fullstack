@@ -66,6 +66,56 @@ export const StyledButton = styled.button<iStyledButtonProps>`
             color: var(--color-primary);
           }
         `;
+      case 'editProfile':
+        return css`
+          gap: 5px;
+          width: fit-content;
+          height: fit-content;
+          background-color: transparent;
+          border: none;
+          text-decoration: underline;
+          font-weight: var(--weight4);
+          font-size: clamp(var(--font-size7), 4vw, var(--font-size5));
+          color: #ffffff;
+        `;
+      case 'addContact':
+        return css`
+          gap: 5px;
+          width: fit-content;
+          height: fit-content;
+          background-color: transparent;
+          border: none;
+          text-decoration: underline;
+          font-weight: var(--weight2);
+          font-size: clamp(var(--font-size5), 6vw, var(--font-size2));
+          color: var(--color-gray200);
+        `;
+      case 'editContact':
+        return css`
+          width: 2rem;
+          height: 2rem;
+          border-radius: 100%;
+          background-color: #ffffff;
+          border: 1px solid var(--color-primary);
+          color: var(--color-primary);
+          font-size: clamp(var(--font-size7), 4vw, var(--font-size5));
+
+          &:hover {
+            background-color: var(--color-primary);
+            color: #ffffff;
+          }
+        `;
+      case 'logout':
+        return css`
+          width: fit-content;
+          height: fit-content;
+          background-color: transparent;
+          border: none;
+          text-decoration: underline;
+          font-weight: var(--weight4);
+          font-size: clamp(var(--font-size7), 4vw, var(--font-size5));
+          color: #ffffff;
+        `;
     }
   }}
 `;

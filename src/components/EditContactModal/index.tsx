@@ -5,7 +5,7 @@ import { Modal } from '../Modal';
 import { UpdateData, schema } from './schema';
 import useContactContextHook from '../../hooks/contactContextHook';
 import useContextHook from '../../hooks/userContextHook';
-import StyledContent from './style';
+import { StyledContent, StyledError } from './style';
 import Input from '../Input';
 import Button from '../Button';
 import { iContact } from '../../providers/contactsContext/types';
@@ -19,7 +19,11 @@ const EditContactModal = ({
   toggleEditContactModal,
   contactId,
 }: EditContactModalProps) => {
-  const { register, handleSubmit } = useForm<UpdateData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UpdateData>({
     resolver: zodResolver(schema),
   });
 
@@ -52,10 +56,15 @@ const EditContactModal = ({
             type={'text'}
             disabled={false}
             label={'Nome'}
+            required={false}
             placeholder={'Digite o nome'}
             register={register('name')}
             defaultValue={findContact()?.name}
           />
+
+          {errors.name?.message && (
+            <StyledError>{errors.name.message}</StyledError>
+          )}
 
           <Input
             inputVariation={'form'}
@@ -63,21 +72,29 @@ const EditContactModal = ({
             type={'email'}
             disabled={false}
             label={'Email'}
+            required={false}
             placeholder={'Digite o email'}
             register={register('email')}
             defaultValue={findContact()?.email}
           />
+          {errors.email?.message && (
+            <StyledError>{errors.email.message}</StyledError>
+          )}
 
           <Input
             inputVariation={'form'}
             id={'phoneEditProfile'}
-            type={'text'}
+            type={'tel'}
             disabled={false}
             label={'Telefone'}
+            required={false}
             placeholder={'Digite o telefone'}
             register={register('phone')}
             defaultValue={findContact()?.phone}
           />
+          {errors.phone?.message && (
+            <StyledError>{errors.phone.message}</StyledError>
+          )}
 
           <div>
             <Button type={'submit'} buttonVariation={'login'}>

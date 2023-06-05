@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../Modal';
 import { CreateData, schema } from './schema';
 import useContactContextHook from '../../hooks/contactContextHook';
-import StyledContent from './style';
+import { StyledContent, StyledError } from './style';
 import Input from '../Input';
 import Button from '../Button';
 
@@ -13,7 +13,11 @@ interface AddContactModalProps {
 }
 
 const AddContactModal = ({ toggleContactModal }: AddContactModalProps) => {
-  const { register, handleSubmit } = useForm<CreateData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateData>({
     resolver: zodResolver(schema),
   });
 
@@ -38,9 +42,13 @@ const AddContactModal = ({ toggleContactModal }: AddContactModalProps) => {
             type={'text'}
             disabled={false}
             label={'Nome'}
+            required={true}
             placeholder={'Digite o nome'}
             register={register('name')}
           />
+          {errors.name?.message && (
+            <StyledError>{errors.name.message}</StyledError>
+          )}
 
           <Input
             inputVariation={'form'}
@@ -48,19 +56,27 @@ const AddContactModal = ({ toggleContactModal }: AddContactModalProps) => {
             type={'email'}
             disabled={false}
             label={'Email'}
+            required={true}
             placeholder={'Digite o email'}
             register={register('email')}
           />
+          {errors.email?.message && (
+            <StyledError>{errors.email.message}</StyledError>
+          )}
 
           <Input
             inputVariation={'form'}
             id={'phoneEditProfile'}
-            type={'text'}
+            type={'tel'}
             disabled={false}
             label={'Telefone'}
+            required={true}
             placeholder={'Digite o telefone'}
             register={register('phone')}
           />
+          {errors.phone?.message && (
+            <StyledError>{errors.phone.message}</StyledError>
+          )}
 
           <Button type={'submit'} buttonVariation={'login'}>
             Criar contato

@@ -13,4 +13,6 @@ interface iUser {
 
 type iUserReturn = Omit<iUser, 'password'>;
 
-export { iUser, iUserReturn };
+type iUserUpdatedReturn = Omit<iUser, 'password' | 'contacts'>;
+
+export { iUser, iUserReturn, iUserUpdatedReturn };

@@ -4,10 +4,17 @@ import useContactContextHook from '../../hooks/contactContextHook';
 import EditProfileModal from '../../components/EditProfileModal';
 import AddContactModal from '../../components/AddContactModal';
 import EditContactModal from '../../components/EditContactModal';
+import ContactCard from '../../components/ContactCard';
+import { FaUserEdit } from 'react-icons/fa';
+import { BsPersonPlusFill } from 'react-icons/bs';
 import { iContact } from '../../providers/contactsContext/types';
+import { StyledHeader, StyledMain } from './style';
+import Button from '../../components/Button';
+import NoContactsBackground from '../../assets/img/undraw_nocontacts.svg';
 
 const Dashboard = () => {
-  const { user, isOpenModal, toggleModal, logOff } = useContextHook();
+  const { user, updatedUser, isOpenModal, toggleModal, logOff } =
+    useContextHook();
   const {
     toggleContactModal,
     isOpenContactModal,
@@ -24,47 +31,58 @@ const Dashboard = () => {
 
   return (
     <>
-      <header>
+      <StyledHeader>
         <div>
-          <h1>Agenda do {user.name}</h1>
-          <button onClick={logOff}>Sair</button>
+          <h1>Agenda online</h1>
+          <div>
+            <p>Nome: {updatedUser.name}</p>
+            <p>Email: {updatedUser.email}</p>
+            <p>Telefone: {updatedUser.phone}</p>
+          </div>
         </div>
-
         <div>
-          <p>Editar perfil</p>
-          <button onClick={toggleModal}>+</button>
+          <Button
+            onClick={toggleModal}
+            buttonVariation={'editProfile'}
+            type={'button'}>
+            Editar perfil
+            <FaUserEdit size={20} />
+          </Button>
+          <Button onClick={logOff} buttonVariation={'logout'} type={'button'}>
+            Sair
+          </Button>
         </div>
-      </header>
-      <main>
+      </StyledHeader>
+      <StyledMain>
         <section>
           <div>
-            <h2>Adicionar contato</h2>
-            <button onClick={toggleContactModal}>+</button>
+            <Button
+              type={'button'}
+              onClick={toggleContactModal}
+              buttonVariation={'addContact'}>
+              Adicionar contato
+              <BsPersonPlusFill />
+            </Button>
           </div>
 
           <ul>
-            {user.contacts === undefined ? (
-              <div>
-                <p>Você ainda não possui contatos, adicione o primeiro!</p>
-                <button>+</button>
-              </div>
-            ) : (
+            {user.contacts.length > 0 ? (
               user.contacts.map((elt) => {
                 return (
-                  <li key={elt.id}>
-                    <div>
-                      <p>{elt.name}</p>
-                      <p>{elt.email}</p>
-                      <p>{elt.phone}</p>
-                    </div>
-                    <div>
-                      <button onClick={() => setContact(elt)}>
-                        Editar Contato
-                      </button>
-                    </div>
-                  </li>
+                  <ContactCard
+                    key={elt.id}
+                    data={elt}
+                    setContact={setContact}></ContactCard>
                 );
               })
+            ) : (
+              <div>
+                <p>Você ainda não possui contatos, adicione o primeiro!</p>
+                <img
+                  src={NoContactsBackground}
+                  alt='Pessoa sentada adicionando contatos online'
+                />
+              </div>
             )}
           </ul>
         </section>
@@ -78,7 +96,7 @@ const Dashboard = () => {
             toggleEditContactModal={toggleEditContactModal}
           />
         )}
-      </main>
+      </StyledMain>
     </>
   );
 };

@@ -12,6 +12,7 @@ interface iInputProps {
   inputVariation?: string;
   value?: string;
   defaultValue?: string;
+  required: boolean;
 }
 
 const Input = ({
@@ -23,6 +24,7 @@ const Input = ({
   register,
   inputVariation,
   value,
+  required,
   defaultValue,
 }: iInputProps) => {
   return (
@@ -37,6 +39,7 @@ const Input = ({
         placeholder={placeholder}
         disabled={disabled}
         defaultValue={defaultValue}
+        required={required}
         {...register}
       />
     </StyledInput>
